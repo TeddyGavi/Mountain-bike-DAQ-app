@@ -4,6 +4,7 @@
 
 
 ## Steps:
+- I have already ran `npx expo prebuild` to expose the native code
 - You will need node, expo-cli, eas-cli and npm to manage the packages!
 - If building locally for android or is you want to use the emulator (ie. not useful for native modules using BLE) you will need android studio
 
@@ -20,4 +21,5 @@
 
 ### Android
 
--  
+- run `npx expo run:android` to build the project locally
+- should return a QR code or if the studio is installed with proper env variables set up you will get the emulator loaded
