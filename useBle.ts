@@ -4,10 +4,12 @@ import {
   BleManager,
   Characteristic,
   Device,
+  Service,
 } from "react-native-ble-plx";
 import { PermissionsAndroid, Platform } from "react-native";
 import * as ExpoDevice from "expo-device";
 import base64 from "react-native-base64";
+import {Buffer} from "buffer"
 
 const HEART_RATE_SERVICEID = "0000180d-0000-1000-8000-00805f9b34fb";
 const HEART_RATE_CHARACTERISTICID = "00002a37-0000-1000-8000-00805f9b34fb";
@@ -154,12 +156,17 @@ function useBle(): BluetoothLowEnergyApi {
       console.log("No Data Received");
     } else {
       const rawData = base64.decode(characteristic.value);
+      // const array8 = Buffer.from(characteristic.value, 'base64')
+      // console.log(new Int32Array(array8))
+
       let innerHeartRate: number = -1;
 
       const firstBitValue: number = Number(rawData) & 0x01;
+      console.log(firstBitValue)
 
       if (firstBitValue === 0) {
         innerHeartRate = rawData[1].charCodeAt(0);
+        // console.log(innerHeartRate)
       } else {
         innerHeartRate =
           Number(rawData[1].charCodeAt(0) << 8) +
@@ -184,7 +191,7 @@ function useBle(): BluetoothLowEnergyApi {
       const first: number = Number(raw) & 0x01;
 
       if (first === 0) {
-        console.log(raw.charCodeAt(0));
+        // console.log(raw.charCodeAt(0));
         batteryLevel = raw.charCodeAt(0);
       } else {
         batteryLevel = 0;
