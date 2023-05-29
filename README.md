@@ -20,9 +20,15 @@
 
 
 ### Android
-
+#### Locally
 - run `npx expo run:android` to build the project locally
 - you will need Android studio installed and have `ANDROID_HOME` set to the android SDK location. 
 - see the docs at [Android Studio](https://developer.android.com/studio)
 - should return a QR code or if the studio is installed with proper env variables set up you will get the emulator loaded
 
+#### Via APK or AAB Alternative
+- I have build the project on expos servers using `npx expo -p android`
+- I can share the download link for the zipped project
+- Download and extract and transfer to Android Device
+- Allow install from unknown sources on phone
+- install app! 
