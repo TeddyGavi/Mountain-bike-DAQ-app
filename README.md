@@ -26,7 +26,7 @@
 - see the docs at [Android Studio](https://developer.android.com/studio)
 - should return a QR code or if the studio is installed with proper env variables set up you will get the emulator loaded
 
-#### Via APK or AAB Alternative
+#### Via APK or AAB Alternative (download direct android build)
 - I have build the project on expos servers using `npx expo -p android`
 - I can share the download link for the zipped project
 - Download and extract and transfer to Android Device

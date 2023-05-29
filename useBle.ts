@@ -158,21 +158,20 @@ function useBle(): BluetoothLowEnergyApi {
       const rawData = base64.decode(characteristic.value);
       // const array8 = Buffer.from(characteristic.value, 'base64')
       // console.log(new Int32Array(array8))
+      // console.log(characteristic.value, array8)
 
       let innerHeartRate: number = -1;
 
       const firstBitValue: number = Number(rawData) & 0x01;
-      console.log(firstBitValue)
+      // console.log(firstBitValue)
 
       if (firstBitValue === 0) {
         innerHeartRate = rawData[1].charCodeAt(0);
-        // console.log(innerHeartRate)
       } else {
         innerHeartRate =
           Number(rawData[1].charCodeAt(0) << 8) +
           Number(rawData[2].charCodeAt(2));
       }
-
       setHeartRate(innerHeartRate);
     }
   };
@@ -224,13 +223,14 @@ function useBle(): BluetoothLowEnergyApi {
     }
   };
 
-  const disconnectFromDevice = () => {
+  const disconnectFromDevice = ()  => {
     if (connectedDevice) {
       bleManager.cancelDeviceConnection(connectedDevice.id);
       setConnectedDevice(null);
       setHeartRate(0);
       // console.log(allDevices);
     }
+
   };
 
   return {
