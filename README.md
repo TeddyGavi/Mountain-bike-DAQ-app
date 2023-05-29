@@ -22,4 +22,7 @@
 ### Android
 
 - run `npx expo run:android` to build the project locally
+- you will need Android studio installed and have `ANDROID_HOME` set to the android SDK location. 
+- see the docs at [Android Studio](https://developer.android.com/studio)
 - should return a QR code or if the studio is installed with proper env variables set up you will get the emulator loaded
+
