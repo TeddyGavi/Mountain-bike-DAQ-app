@@ -8,6 +8,8 @@
 - You will need node, expo-cli, eas-cli and npm to manage the packages!
 - If building locally for android or is you want to use the emulator (ie. not useful for native modules using BLE) you will need android studio
 
+- `git clone` and then `npm install` to set up
+
 ### iOS
 
 - `iOS` You will need an expo account, an apple developer account and build the app on expos servers
