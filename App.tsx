@@ -24,14 +24,19 @@ const App = () => {
     sensorData,
   } = useBle();
 
-  const { requestLocationPermissions, startLocationTracking } = useLocation();
+  const {
+    requestLocationPermissions,
+    startLocationTracking,
+    trackingStarted,
+    checkBackgroundTracking,
+  } = useLocation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isTrackingAllowed, setIsTrackingAllowed] = useState<boolean>(false);
 
   const startTracking = async () => {
     const isLocationAllowed = await requestLocationPermissions();
     if (isLocationAllowed) {
-      setIsTrackingAllowed(true);
+      // setIsTrackingAllowed(true);
       startLocationTracking();
     }
   };
@@ -51,6 +56,10 @@ const App = () => {
     scanForDevices();
     setIsModalVisible(true);
   };
+
+  useEffect(() => {
+    checkBackgroundTracking();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,7 +81,7 @@ const App = () => {
       <TouchableOpacity onPress={startTracking} style={styles.ctaButton}>
         <Text style={styles.ctaButtonText}>
           {" "}
-          {isTrackingAllowed ? "Tracking on" : "Start Tracking?"}
+          {trackingStarted ? "Tracking on" : "Start Tracking?"}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity

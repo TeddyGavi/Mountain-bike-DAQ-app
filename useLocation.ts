@@ -8,6 +8,8 @@ const LOCATION_TRACKING = "LOCATION_TRACKING";
 interface LocationAPI {
   requestLocationPermissions: () => Promise<boolean>;
   startLocationTracking: () => void;
+  trackingStarted: boolean;
+  checkBackgroundTracking: () => Promise<void>;
 }
 
 function useLocation(): LocationAPI {
@@ -36,7 +38,6 @@ function useLocation(): LocationAPI {
     const started = await Location.hasStartedLocationUpdatesAsync(
       LOCATION_TRACKING
     );
-    setTrackingStarted(started);
     console.log("Tracking?", started);
   };
 
@@ -60,9 +61,17 @@ function useLocation(): LocationAPI {
       }
     }
   });
+
+  const checkBackgroundTracking = async () => {
+    const res = await TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING);
+    setTrackingStarted(res);
+  };
+
   return {
     requestLocationPermissions,
     startLocationTracking,
+    trackingStarted,
+    checkBackgroundTracking,
   };
 }
 
