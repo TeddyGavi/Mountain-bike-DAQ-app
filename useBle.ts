@@ -12,15 +12,19 @@ import * as ExpoDevice from "expo-device";
 import base64 from "react-native-base64";
 import { Buffer } from "buffer";
 
+// Standard HEART rate UUID data
 const HEART_RATE_SERVICEID = "0000180d-0000-1000-8000-00805f9b34fb";
 const HEART_RATE_CHARACTERISTICID = "00002a37-0000-1000-8000-00805f9b34fb";
+
 // CUSTOM UUIds where sensor data is transmitted
 const CUSTOM_SERVICEID = "12345678-1234-5678-1234-56789abcdef0";
 const CUSTOM_CHARACTERISTICID = "12345678-1234-5678-1234-56789abcdef1";
+
 // Other Heart Rate Char UUIDS as defined in Bluetooth SIG
 const BODY_LOCATION_UUID = "00002A38-0000-1000-8000-00805F9B34FB";
 const CONTROL_POINT_UUID = "00002A39-0000-1000-8000-00805F9B34FB";
 
+// Battery level
 const BATTERY_LEVEL_SERVICE = "0000180f-0000-1000-8000-00805f9b34fb";
 const BATTERY_LEVEL_CHAR = "00002a19-0000-1000-8000-00805f9b34fb";
 

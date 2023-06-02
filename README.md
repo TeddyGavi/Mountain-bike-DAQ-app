@@ -23,6 +23,7 @@
 
 ### Android
 #### Locally
+> **NOTE:** Make Sure you have proper the proper Java environment and JDK as required by[Android Studio](https://developer.android.com/studio)
 - run `npx expo run:android` to build the project locally
 - you will need Android studio installed and have `ANDROID_HOME` set to the android SDK location. 
 - see the docs at [Android Studio](https://developer.android.com/studio)
