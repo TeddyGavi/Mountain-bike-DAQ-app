@@ -20,6 +20,7 @@ const App = () => {
     heartRate,
     disconnectFromDevice,
     batteryLevel,
+    sensorData
   } = useBle();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const scanForDevices = async () => {
@@ -44,8 +45,8 @@ const App = () => {
         {connectedDevice ? (
           <>
             <PulseIndicator />
-            <Text style={styles.heartRateTitleText}>Your Heart Rate Is:</Text>
-            <Text style={styles.heartRateText}>{heartRate} bpm</Text>
+            <Text style={styles.heartRateTitleText}>Distance is: </Text>
+            <Text style={styles.heartRateText}>{sensorData} </Text>
             <Text style={styles.heartRateTitleText}>Battery Level is:</Text>
             <Text style={styles.heartRateText}>{batteryLevel} %</Text>
           </>

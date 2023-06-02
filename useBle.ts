@@ -11,15 +11,14 @@ import * as ExpoDevice from "expo-device";
 import base64 from "react-native-base64";
 import { Buffer } from "buffer";
 
-const HEART_RATE_SERVICEID = "0000180D-0000-1000-8000-00805F9B34FB";
-const HEART_RATE_CHARACTERISTICID = "00002A37-0000-1000-8000-00805f9B34FB";
+const HEART_RATE_SERVICEID = "0000180d-0000-1000-8000-00805f9b34fb";
+const HEART_RATE_CHARACTERISTICID = "00002a37-0000-1000-8000-00805f9b34fb";
+// CUSTOM UUIds where sensor data is transmitted
+const CUSTOM_SERVICEID = "12345678-1234-5678-1234-56789abcdef0";
+const CUSTOM_CHARACTERISTICID = "12345678-1234-5678-1234-56789abcdef1";
+// Other Heart Rate Char UUIDS as defined in Bluetooth SIG
 const BODY_LOCATION_UUID = "00002A38-0000-1000-8000-00805F9B34FB";
 const CONTROL_POINT_UUID = "00002A39-0000-1000-8000-00805F9B34FB";
-const CUSTOM_CHAR = "12345678-1234-5678-1234-56789abcdef0";
-const SERVICE1 = "12345678-1234-5678-1234-56789abcdef1";
-const SERVICE2 = "12345678-1234-5678-1234-56789abcdef2";
-const SERVICE3 = "12345678-1234-5678-1234-56789abcdef3";
-const SERVICE4 = "12345678-1234-5678-1234-56789abcdef4";
 
 const BATTERY_LEVEL_SERVICE = "0000180f-0000-1000-8000-00805f9b34fb";
 const BATTERY_LEVEL_CHAR = "00002a19-0000-1000-8000-00805f9b34fb";
@@ -33,6 +32,7 @@ interface BluetoothLowEnergyApi {
   disconnectFromDevice: () => void;
   heartRate: number;
   batteryLevel: number;
+  sensorData: number;
 }
 
 function useBle(): BluetoothLowEnergyApi {
@@ -62,6 +62,7 @@ function useBle(): BluetoothLowEnergyApi {
   const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
   const [heartRate, setHeartRate] = useState<number>(0);
   const [batteryLevel, setBatteryLevel] = useState<number>(0);
+  const [sensorData, setSensorData] = useState<number>(0);
 
   const requestAndroid31Permissions = async () => {
     const bluetoothScanPermissions = await PermissionsAndroid.request(
@@ -145,11 +146,8 @@ function useBle(): BluetoothLowEnergyApi {
       const deviceConnection = await bleManager.connectToDevice(device.id);
       setConnectedDevice(deviceConnection);
       await deviceConnection.discoverAllServicesAndCharacteristics();
-      // const services = await device.services()
-      // const chars = await device.characteristicsForService(CUSTOM_CHAR)
-      // console.log(device.serviceData, device.serviceUUIDs, chars)
       bleManager.stopDeviceScan();
-      startStreamingData(deviceConnection);
+      startStreamingHRData(deviceConnection);
       streamBattery(deviceConnection);
       streamCustom(deviceConnection);
     } catch (error) {
@@ -167,21 +165,15 @@ function useBle(): BluetoothLowEnergyApi {
       console.log("No Data Received");
     } else {
       const rawData = base64.decode(characteristic.value);
-      // const integer = array16.readUInt16LE(0)
-      const array16 = Buffer.from(characteristic.value, "base64");
-      console.log("encoded string ===>", characteristic.value, "array Uint values ===>", array16[0], array16[1], "Binary ===>", (array16[0] >>> 0).toString(2), (array16[1] >>> 0).toString(2))
-      // console.log(Uint16Array.from(rawData, (c) => c.charCodeAt(0)))
-      // console.log(Uint8Array.from(characteristic.value, (c) => c.charCodeAt(0)))
-      const decodedValue = (array16[1] << 8) + array16[0] >> 6;
-      // console.log(decodedValue)
+      // const decodedValue = (array16[1] << 8) + array16[0];
 
       let innerHeartRate: number = -1;
 
       const firstBitValue: number = Number(rawData) & 0x01;
-      // console.log(firstBitValue)
 
-      if (firstBitValue === 0) {
+      if (!firstBitValue || firstBitValue === 1) {
         innerHeartRate = rawData[1].charCodeAt(0);
+        innerHeartRate = 0;
       } else {
         innerHeartRate =
           Number(rawData[1].charCodeAt(0) << 8) +
@@ -223,11 +215,12 @@ function useBle(): BluetoothLowEnergyApi {
     } else if (!characteristic?.value) {
       console.log("No Data Received");
     } else {
-      console.log(characteristic);
+      const buffer = Buffer.from(characteristic.value, "base64");
+      setSensorData(buffer.readUInt16LE(0))
     }
   };
 
-  const startStreamingData = (device: Device) => {
+  const startStreamingHRData = (device: Device) => {
     if (device) {
       device.monitorCharacteristicForService(
         HEART_RATE_SERVICEID,
@@ -253,7 +246,11 @@ function useBle(): BluetoothLowEnergyApi {
 
   const streamCustom = async (device: Device) => {
     if (device) {
-      device.monitorCharacteristicForService(CUSTOM_CHAR, HEART_RATE_CHARACTERISTICID, onCustom);
+      device.monitorCharacteristicForService(
+        CUSTOM_SERVICEID,
+        CUSTOM_CHARACTERISTICID,
+        onCustom
+      );
     } else {
       console.log("no device");
     }
@@ -264,7 +261,6 @@ function useBle(): BluetoothLowEnergyApi {
       bleManager.cancelDeviceConnection(connectedDevice.id);
       setConnectedDevice(null);
       setHeartRate(0);
-      // console.log(allDevices);
     }
   };
 
@@ -277,6 +273,7 @@ function useBle(): BluetoothLowEnergyApi {
     heartRate,
     disconnectFromDevice,
     batteryLevel,
+    sensorData
   };
 }
 
