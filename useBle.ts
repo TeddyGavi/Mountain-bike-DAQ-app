@@ -70,6 +70,14 @@ function useBle(): BluetoothLowEnergyApi {
   const [sensorData, setSensorData] = useState<number>(0);
   const [subscription, setSubscription] = useState<Subscription[]>([]);
 
+  const resetState = () => {
+    setConnectedDevice(null);
+    setHeartRate(0);
+    setBatteryLevel(0);
+    setSensorData(0);
+    setConnectedDevice(null);
+  };
+
   const requestAndroid31Permissions = async () => {
     const bluetoothScanPermissions = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
@@ -268,8 +276,7 @@ function useBle(): BluetoothLowEnergyApi {
     if (connectedDevice && subscription) {
       subscription.forEach((s) => s.remove());
       bleManager.cancelDeviceConnection(connectedDevice.id);
-      setConnectedDevice(null);
-      setHeartRate(0);
+      resetState();
     }
   };
 
