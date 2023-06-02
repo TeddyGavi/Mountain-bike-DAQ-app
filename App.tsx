@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
 import DeviceModal from "./DeviceConnectionModal";
 import { PulseIndicator } from "./PulseIndicator";
 import useBle from "./useBle";
+import useLocation from "./useLocation";
 
 const App = () => {
   const {
@@ -22,6 +23,8 @@ const App = () => {
     batteryLevel,
     sensorData,
   } = useBle();
+
+  const { requestLocationPermissions } = useLocation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const scanForDevices = async () => {
     const isPermissionsEnabled = await requestPermissions();
@@ -38,6 +41,11 @@ const App = () => {
     scanForDevices();
     setIsModalVisible(true);
   };
+
+  useEffect(() => {
+    const result = requestLocationPermissions();
+    console.log(result);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
