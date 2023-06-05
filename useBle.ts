@@ -7,11 +7,13 @@ import {
   Subscription,
   Service,
 } from "react-native-ble-plx";
+import * as TaskManager from "expo-task-manager";
 import { PermissionsAndroid, Platform } from "react-native";
 import * as ExpoDevice from "expo-device";
 import base64 from "react-native-base64";
 import { Buffer } from "buffer";
-
+// task
+const BLUETOOTH_TASK = "BLUETOOTH_TASK";
 // Standard HEART rate UUID data
 const HEART_RATE_SERVICEID = "0000180d-0000-1000-8000-00805f9b34fb";
 const HEART_RATE_CHARACTERISTICID = "00002a37-0000-1000-8000-00805f9b34fb";
@@ -230,6 +232,7 @@ function useBle(): BluetoothLowEnergyApi {
     } else {
       const buffer = Buffer.from(characteristic.value, "base64");
       setSensorData(buffer.readUInt16LE(0));
+      console.log(buffer.readUint16LE(0));
     }
   };
 

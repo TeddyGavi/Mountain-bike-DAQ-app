@@ -5,16 +5,29 @@ import * as TaskManager from "expo-task-manager";
 
 const LOCATION_TRACKING = "LOCATION_TRACKING";
 
+interface CurrPos {
+  lat: number;
+  long: number;
+  speed: number;
+}
+
 interface LocationAPI {
   requestLocationPermissions: () => Promise<boolean>;
   startLocationTracking: () => void;
   trackingStarted: boolean;
   checkBackgroundTracking: () => Promise<void>;
+  stopTracking: () => Promise<void>;
+  currentPosition: null | CurrPos;
 }
 
 function useLocation(): LocationAPI {
   const [location, setLocation] = useState<Location.LocationObjectCoords>();
   const [trackingStarted, setTrackingStarted] = useState<boolean>(false);
+  const [currentPosition, setCurrentPosition] = useState<CurrPos>({
+    lat: 0,
+    long: 0,
+    speed: 0,
+  });
 
   const requestLocationPermissions = async () => {
     const foreground = await Location.requestForegroundPermissionsAsync();
@@ -38,6 +51,7 @@ function useLocation(): LocationAPI {
     const started = await Location.hasStartedLocationUpdatesAsync(
       LOCATION_TRACKING
     );
+    setTrackingStarted(started);
     console.log("Tracking?", started);
   };
 
@@ -50,9 +64,15 @@ function useLocation(): LocationAPI {
       if (data) {
         // console.log(data.locations, data.locations[0].coords.speed);
         const { locations } = data;
-
         let lat = locations[0].coords.latitude.toFixed(3);
         let long = locations[0].coords.longitude.toFixed(3);
+        let speed = data.locations[0].coords.speed;
+        let curr: CurrPos = {
+          lat,
+          long,
+          speed,
+        };
+        setCurrentPosition(curr);
         console.log(
           `${new Date(Date.now()).toLocaleString()}: ${lat},${long} Speed: ${
             data.locations[0].coords.speed
@@ -67,11 +87,22 @@ function useLocation(): LocationAPI {
     setTrackingStarted(res);
   };
 
+  const stopTracking = async () => {
+    setTrackingStarted(false);
+    setCurrentPosition({ lat: 0, long: 0, speed: 0 });
+    const tracking = await TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING);
+    if (tracking) {
+      Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
+    }
+  };
+
   return {
     requestLocationPermissions,
     startLocationTracking,
     trackingStarted,
     checkBackgroundTracking,
+    stopTracking,
+    currentPosition,
   };
 }
 
