@@ -5,11 +5,15 @@ import * as TaskManager from "expo-task-manager";
 
 const LOCATION_TRACKING = "LOCATION_TRACKING";
 
-interface CurrPos {
-  lat: number;
-  long: number;
-  speed: number;
-}
+const defaultLocation = {
+  latitude: 0,
+  longitude: 0,
+  accuracy: null,
+  altitude: null,
+  altitudeAccuracy: null,
+  heading: null,
+  speed: null,
+};
 
 interface LocationAPI {
   requestLocationPermissions: () => Promise<boolean>;
@@ -17,17 +21,13 @@ interface LocationAPI {
   trackingStarted: boolean;
   checkBackgroundTracking: () => Promise<void>;
   stopTracking: () => Promise<void>;
-  currentPosition: null | CurrPos;
+  location: Location.LocationObjectCoords;
 }
 
 function useLocation(): LocationAPI {
-  const [location, setLocation] = useState<Location.LocationObjectCoords>();
+  const [location, setLocation] =
+    useState<Location.LocationObjectCoords>(defaultLocation);
   const [trackingStarted, setTrackingStarted] = useState<boolean>(false);
-  const [currentPosition, setCurrentPosition] = useState<CurrPos>({
-    lat: 0,
-    long: 0,
-    speed: 0,
-  });
 
   const requestLocationPermissions = async () => {
     const foreground = await Location.requestForegroundPermissionsAsync();
@@ -55,32 +55,33 @@ function useLocation(): LocationAPI {
     console.log("Tracking?", started);
   };
 
-  // init task Manager
-  TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
+  // task executer
+  const taskExecutor = ({
+    data: { locations },
+    error,
+  }: {
+    data: { locations?: Array<Location.LocationObject> };
+    error: TaskManager.TaskManagerError | null;
+  }) => {
     if (error) {
       console.log("error", error);
       return;
     } else {
-      if (data) {
+      if (locations) {
         // console.log(data.locations, data.locations[0].coords.speed);
-        const { locations } = data;
-        let lat = locations[0].coords.latitude.toFixed(3);
-        let long = locations[0].coords.longitude.toFixed(3);
-        let speed = data.locations[0].coords.speed;
-        let curr: CurrPos = {
-          lat,
-          long,
-          speed,
-        };
-        setCurrentPosition(curr);
+        // const { locations } = data;
+        setLocation(locations[0].coords);
         console.log(
-          `${new Date(Date.now()).toLocaleString()}: ${lat},${long} Speed: ${
-            data.locations[0].coords.speed
-          }`
+          `${new Date(Date.now()).toLocaleString()}: ${location?.latitude},${
+            location?.longitude
+          } Speed: ${locations[0].coords.speed}`
         );
       }
     }
-  });
+  };
+
+  // init task Manager
+  TaskManager.defineTask(LOCATION_TRACKING, taskExecutor);
 
   const checkBackgroundTracking = async () => {
     const res = await TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING);
@@ -89,7 +90,7 @@ function useLocation(): LocationAPI {
 
   const stopTracking = async () => {
     setTrackingStarted(false);
-    setCurrentPosition({ lat: 0, long: 0, speed: 0 });
+    setLocation(defaultLocation);
     const tracking = await TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING);
     if (tracking) {
       Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
@@ -102,7 +103,7 @@ function useLocation(): LocationAPI {
     trackingStarted,
     checkBackgroundTracking,
     stopTracking,
-    currentPosition,
+    location,
   };
 }
 

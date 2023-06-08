@@ -10,7 +10,6 @@ import DeviceModal from "./DeviceConnectionModal";
 import { PulseIndicator } from "./PulseIndicator";
 import useBle from "./useBle";
 import useLocation from "./useLocation";
-import * as TaskManager from "expo-task-manager";
 const App = () => {
   const {
     requestPermissions,
@@ -30,7 +29,7 @@ const App = () => {
     trackingStarted,
     checkBackgroundTracking,
     stopTracking,
-    currentPosition,
+    location,
   } = useLocation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isTrackingAllowed, setIsTrackingAllowed] = useState<boolean>(false);
@@ -72,13 +71,9 @@ const App = () => {
             <Text style={styles.heartRateTitleText}>Distance is: </Text>
             <Text style={styles.heartRateText}>{sensorData} </Text>
             <Text style={styles.heartRateTitleText}>Current Location:</Text>
-            <Text style={styles.heartRateText}>{currentPosition?.lat} lat</Text>
-            <Text style={styles.heartRateText}>
-              {currentPosition?.long} long
-            </Text>
-            <Text style={styles.heartRateText}>
-              {currentPosition?.speed} speed
-            </Text>
+            <Text style={styles.heartRateText}>{location.latitude} lat</Text>
+            <Text style={styles.heartRateText}>{location.longitude} long</Text>
+            <Text style={styles.heartRateText}>{location.speed} speed</Text>
           </>
         ) : (
           <Text style={styles.heartRateTitleText}>
@@ -86,7 +81,7 @@ const App = () => {
           </Text>
         )}
       </View>
-      {connectedDevice ? (
+      {connectedDevice && (
         <TouchableOpacity
           onPress={trackingStarted ? stopTracking : startTracking}
           style={styles.ctaButton}
@@ -96,8 +91,6 @@ const App = () => {
             {trackingStarted ? "Stop Tracking?" : "Start Tracking?"}
           </Text>
         </TouchableOpacity>
-      ) : (
-        <></>
       )}
 
       <TouchableOpacity
