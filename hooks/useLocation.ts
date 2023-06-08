@@ -60,7 +60,11 @@ function useLocation(): LocationAPI {
     data: { locations },
     error,
   }: {
-    data: { locations?: Array<Location.LocationObject> };
+    data: {
+      locations?: Array<Location.LocationObject>;
+      mocked?: false;
+      timestamp?: number;
+    };
     error: TaskManager.TaskManagerError | null;
   }) => {
     if (error) {
