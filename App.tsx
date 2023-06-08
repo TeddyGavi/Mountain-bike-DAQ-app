@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import DeviceModal from "./DeviceConnectionModal";
-import { PulseIndicator } from "./PulseIndicator";
-import useBle from "./useBle";
-import useLocation from "./useLocation";
+import DeviceModal from "./components/DeviceConnectionModal";
+import { PulseIndicator } from "./components/PulseIndicator";
+import useBle from "./hooks/useBle";
+import useLocation from "./hooks/useLocation";
 const App = () => {
   const {
     requestPermissions,
