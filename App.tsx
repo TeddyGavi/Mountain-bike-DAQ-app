@@ -38,7 +38,7 @@ const App = () => {
   const { filesystemPermissions } = useFileSystem();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isTrackingAllowed, setIsTrackingAllowed] = useState<boolean>(false);
-  const [asyncData, setAsyncData] = useState<string>("");
+  const [asyncData, setAsyncData] = useState<string>("nothing");
 
   const retrieveData = async () => {};
 
@@ -73,7 +73,7 @@ const App = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.heartRateText}>{asyncData || "nothing"}</Text>
+      <Text style={styles.heartRateText}>{}</Text>
       <View style={styles.heartRateTitleWrapper}>
         {connectedDevice ? (
           <>
