@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "rn-ble",
+    "owner": "machinehum",
     "slug": "rn-ble",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,7 +12,10 @@
         "@config-plugins/react-native-ble-plx",
         {
           "isBackgroundEnabled": true,
-          "modes": ["peripheral", "central"],
+          "modes": [
+            "peripheral",
+            "central"
+          ],
           "bluetoothAlwaysPermission": "Allow $(PRODUCT_NAME) to connect to bluetooth devices"
         }
       ],
@@ -31,12 +35,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.rnble",
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"]
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
       }
     },
     "android": {
@@ -48,7 +57,10 @@
         "android.permission.BLUETOOTH",
         "android.permission.BLUETOOTH_ADMIN",
         "android.permission.BLUETOOTH_CONNECT",
-        "android.permission.ACCESS_BACKGROUND_LOCATION"
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
       ],
       "package": "com.anonymous.rnble"
     },
@@ -57,7 +69,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a34133a2-1652-4cd2-a0ff-050177ca3e3b"
+        "projectId": "3a97b23c-cc84-4ee3-96e7-429ccc5eec67"
       }
     }
   }
