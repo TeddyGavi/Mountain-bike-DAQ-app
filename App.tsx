@@ -10,6 +10,7 @@ import DeviceModal from "./components/DeviceConnectionModal";
 import { PulseIndicator } from "./components/PulseIndicator";
 import useBle from "./hooks/useBle";
 import useLocation from "./hooks/useLocation";
+import useFileSystem from "./hooks/useFileSystem";
 const App = () => {
   const {
     requestPermissions,
@@ -31,6 +32,8 @@ const App = () => {
     stopTracking,
     location,
   } = useLocation();
+
+  const { filesystemPermissions } = useFileSystem();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isTrackingAllowed, setIsTrackingAllowed] = useState<boolean>(false);
 
@@ -60,6 +63,7 @@ const App = () => {
 
   useEffect(() => {
     checkBackgroundTracking();
+    filesystemPermissions();
   }, []);
 
   return (
