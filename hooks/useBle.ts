@@ -53,11 +53,11 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
-function writeUserData(userId, name) {
+function writeDb(timestamp, data) {
   const db = getDatabase();
 
-  set(ref(db, 'users/' + userId), {
-    username: name,
+  set(ref(db, 'data/'), {
+    timestamp: data,
   });
 }
 
@@ -264,8 +264,8 @@ function useBle(): BluetoothLowEnergyApi {
       const buffer = Buffer.from(characteristic.value, "base64");
       setSensorData(buffer.readUInt16LE(0));
       console.log(buffer.readUint16LE(0));
+      writeDb(new Date(Date.now()).toLocaleString(), buffer.readUint16LE(0));
     }
-    writeUserData("test", "test2");
   };
 
   const startStreamingHRData = (device: Device) => {
