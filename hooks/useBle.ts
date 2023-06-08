@@ -56,7 +56,7 @@ const database = getDatabase(app);
 function writeDb(timestamp, data) {
   const db = getDatabase();
 
-  set(ref(db, 'data/'), {
+  set(ref(db, timestamp), {
     timestamp: data,
   });
 }
