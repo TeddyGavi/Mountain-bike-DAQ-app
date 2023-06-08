@@ -10,4 +10,12 @@ export async function prepareData() {
   const stringify = JSON.stringify(location);
   const first = ["@sensor", stringData];
   const second = ["@location", stringify];
+
+  try {
+    await AsyncStorage.setItem("@sensor", stringData);
+  } catch (error) {
+    console.log(error);
+  }
+
+  console.log("done saving to async");
 }
