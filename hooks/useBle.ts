@@ -12,6 +12,11 @@ import { PermissionsAndroid, Platform } from "react-native";
 import * as ExpoDevice from "expo-device";
 import base64 from "react-native-base64";
 import { Buffer } from "buffer";
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, set } from "firebase/database";
+
 // task
 const BLUETOOTH_TASK = "BLUETOOTH_TASK";
 // Standard HEART rate UUID data
@@ -29,6 +34,32 @@ const CONTROL_POINT_UUID = "00002A39-0000-1000-8000-00805F9B34FB";
 // Battery level
 const BATTERY_LEVEL_SERVICE = "0000180f-0000-1000-8000-00805f9b34fb";
 const BATTERY_LEVEL_CHAR = "00002a19-0000-1000-8000-00805f9b34fb";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCO3l-tI4lb19mrKhFrG1e3zS7ZBU6SQSw",
+  authDomain: "bikedaq-d46f1.firebaseapp.com",
+  databaseURL: "https://bikedaq-d46f1-default-rtdb.firebaseio.com",
+  projectId: "bikedaq-d46f1",
+  storageBucket: "bikedaq-d46f1.appspot.com",
+  messagingSenderId: "131806723986",
+  appId: "1:131806723986:web:2db903df2bfaa334bc8b4b",
+  measurementId: "G-CEYMQQGFE8",
+  databaseURL: "https://bikedaq-d46f1-default-rtdb.firebaseio.com/"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const database = getDatabase(app);
+
+function writeUserData(userId, name) {
+  const db = getDatabase();
+
+  set(ref(db, 'users/' + userId), {
+    username: name,
+  });
+}
 
 interface BluetoothLowEnergyApi {
   requestPermissions(): Promise<boolean>;
@@ -234,6 +265,7 @@ function useBle(): BluetoothLowEnergyApi {
       setSensorData(buffer.readUInt16LE(0));
       console.log(buffer.readUint16LE(0));
     }
+    writeUserData("test", "test2");
   };
 
   const startStreamingHRData = (device: Device) => {
