@@ -34,20 +34,30 @@ const App = () => {
     reactNavigationLight: DefaultTheme,
   });
 
+  const overrideLight = {
+    ...LightTheme,
+    colors: {
+      ...LightTheme.colors,
+      secondaryContainer: "lightgray",
+      onSurfaceVariant: "red",
+    },
+  };
+
   useEffect(() => {
     checkBackgroundTracking();
   }, []);
 
   return (
     <PaperProvider theme={MD3LightTheme}>
-      <NavigationContainer theme={LightTheme}>
+      <NavigationContainer theme={overrideLight}>
         <Tab.Navigator
           barStyle={{
             backgroundColor: MD3LightTheme.colors.background,
-            borderTopColor: MD3DarkTheme.colors.outline,
+            // borderTopColor: MD3DarkTheme.colors.outline,
             borderStyle: "solid",
             borderTopWidth: 3,
           }}
+          activeColor="black"
         >
           <Tab.Screen
             name="Home"
