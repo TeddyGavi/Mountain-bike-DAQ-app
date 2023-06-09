@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { PermissionsAndroid, Platform } from "react-native";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
@@ -30,14 +30,47 @@ function useLocation(): LocationAPI {
   const [trackingStarted, setTrackingStarted] = useState<boolean>(false);
 
   const requestLocationPermissions = async () => {
-    const foreground = await Location.requestForegroundPermissionsAsync();
-    const background = await Location.requestBackgroundPermissionsAsync();
+    if (Platform.OS === "ios") {
+      const foreground = await Location.requestForegroundPermissionsAsync();
+      const background = await Location.requestBackgroundPermissionsAsync();
 
-    if (foreground.status !== "granted" && background.status !== "granted") {
-      console.log("permission denied for location");
-      return false;
+      if (foreground.status !== "granted" && background.status !== "granted") {
+        console.log("permission denied for location");
+        return false;
+      } else {
+        return true;
+      }
     } else {
-      return true;
+      const coarse = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+          title: "location permission",
+          message: "app needs location",
+          buttonPositive: "Ok",
+        }
+      );
+      const foreground = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.FOREGROUND_SERVICE,
+        {
+          title: "Foreground Location",
+          message: "app needs to run in background!",
+          buttonPositive: "Ok",
+        }
+      );
+      const background = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_BACKGROUND_LOCATION,
+        {
+          title: "Background Location",
+          message: "app needs location",
+          buttonPositive: "Ok",
+        }
+      );
+
+      return (
+        coarse === "granted" &&
+        foreground === "granted" &&
+        background === "granted"
+      );
     }
   };
 
@@ -60,7 +93,11 @@ function useLocation(): LocationAPI {
     data: { locations },
     error,
   }: {
-    data: { locations?: Array<Location.LocationObject> };
+    data: {
+      locations?: Array<Location.LocationObject>;
+      mocked?: false;
+      timestamp?: number;
+    };
     error: TaskManager.TaskManagerError | null;
   }) => {
     if (error) {

@@ -6,10 +6,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceModal from "./components/DeviceConnectionModal";
 import { PulseIndicator } from "./components/PulseIndicator";
 import useBle from "./hooks/useBle";
 import useLocation from "./hooks/useLocation";
+import useFileSystem from "./hooks/useFileSystem";
+import { prepareData } from "./dataFilter/prepareData";
 const App = () => {
   const {
     requestPermissions,
@@ -31,8 +34,13 @@ const App = () => {
     stopTracking,
     location,
   } = useLocation();
+
+  const { filesystemPermissions } = useFileSystem();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isTrackingAllowed, setIsTrackingAllowed] = useState<boolean>(false);
+  const [asyncData, setAsyncData] = useState<string>("nothing");
+
+  const retrieveData = async () => {};
 
   const startTracking = async () => {
     const isLocationAllowed = await requestLocationPermissions();
@@ -60,10 +68,12 @@ const App = () => {
 
   useEffect(() => {
     checkBackgroundTracking();
+    filesystemPermissions();
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.heartRateText}>{}</Text>
       <View style={styles.heartRateTitleWrapper}>
         {connectedDevice ? (
           <>
@@ -100,6 +110,9 @@ const App = () => {
         <Text style={styles.ctaButtonText}>
           {connectedDevice ? "Disconnect" : "Connect"}
         </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.ctaButton} onPress={() => null}>
+        <Text style={styles.ctaButtonText}>Data</Text>
       </TouchableOpacity>
       <DeviceModal
         closeModal={hideModal}
