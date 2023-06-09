@@ -44,24 +44,24 @@ interface BluetoothLowEnergyApi {
 
 function useBle(): BluetoothLowEnergyApi {
   const bleManager = useMemo(
-    () => new BleManager(),
-    // {
-    //   restoreStateIdentifier: "BleInTheBackground",
-    //   restoreStateFunction: (restoredState) => {
-    //     if (restoredState === null) {
-    //       // BleManager was constructed for the first time.
-    //       return;
-    //     } else {
-    //       // BleManager was restored. Check `restoredState.connectedPeripherals` property.
-    //       // array of peripherals
-    //       const restoredDevices = restoredState.connectedPeripherals;
-    //       const device = restoredDevices.filter((device) =>
-    //         device.name?.includes("zephyr")
-    //       );
-    //       setConnectedDevice(device[0]);
-    //     }
-    //   },
-    // }),
+    () =>
+      new BleManager({
+        restoreStateIdentifier: "BleInBackground",
+        restoreStateFunction: (restoredState) => {
+          if (restoredState === null) {
+            // BleManager was constructed for the first time.
+            return new BleManager();
+          } else {
+            // BleManager was restored. Check `restoredState.connectedPeripherals` property.
+            // array of peripherals
+            const restoredDevices = restoredState.connectedPeripherals;
+            const device = restoredDevices.filter((device) =>
+              device.name?.includes("zephyr")
+            );
+            setConnectedDevice(device[0]);
+          }
+        },
+      }),
     []
   );
 
