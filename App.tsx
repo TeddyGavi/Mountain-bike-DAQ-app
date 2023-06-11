@@ -50,7 +50,7 @@ const App = () => {
           screenOptions={{}}
         >
           <Tab.Screen
-            name="Home"
+            name="Root"
             component={HomeStack}
             options={{
               tabBarIcon: ({ focused, color }) => {
@@ -64,6 +64,7 @@ const App = () => {
                   <MaterialCommunityIcons name="home" size={28} color={color} />
                 );
               },
+              tabBarLabel: "Home",
             }}
           />
           <Tab.Screen
