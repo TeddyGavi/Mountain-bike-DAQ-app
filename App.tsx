@@ -22,10 +22,11 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import useLocation from "./hooks/useLocation";
-import HomeScreen from "./screens/HomeScreen";
-import RecorderScreen from "./screens/RecorderScreen";
-import MapScreen from "./screens/MapScreen";
+import HomeScreen from "./screens/Home";
+import RecorderScreen from "./screens/Recorder";
+import MapScreen from "./screens/Map";
 import Settings from "./screens/Settings";
+import Header from "./components/Header";
 
 const App = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -60,7 +61,7 @@ const App = () => {
             height: 100,
           }}
           activeColor="black"
-          screenOptions={{ headerShown: true }}
+          screenOptions={{}}
         >
           <Tab.Screen
             name="Home"
@@ -70,7 +71,7 @@ const App = () => {
                 return focused ? (
                   <MaterialCommunityIcons
                     name="home"
-                    size={32}
+                    size={30}
                     color="#0a7e0a"
                   />
                 ) : (
@@ -86,13 +87,13 @@ const App = () => {
               tabBarIcon: ({ focused, color }) => {
                 return focused ? (
                   <MaterialCommunityIcons
-                    name="record"
-                    size={32}
+                    name="adjust"
+                    size={30}
                     color="#0a7e0a"
                   />
                 ) : (
                   <MaterialCommunityIcons
-                    name="record"
+                    name="adjust"
                     size={28}
                     color={color}
                   />
@@ -108,7 +109,7 @@ const App = () => {
                 return focused ? (
                   <MaterialCommunityIcons
                     name="map"
-                    size={32}
+                    size={30}
                     color="#0a7e0a"
                   />
                 ) : (
