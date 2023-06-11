@@ -7,7 +7,6 @@ export default function HomeScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   return (
     <View>
-      <Header />
       <Text>HomeScreen</Text>
       <Button
         title="Record a Ride"

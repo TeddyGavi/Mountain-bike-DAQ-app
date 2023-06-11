@@ -6,32 +6,24 @@ import {
   StyleSheet,
   Button,
 } from "react-native";
-import { useRoute } from "@react-navigation/native";
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
 import Account from "../screens/Account";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 
-export default function Header() {
-  const route = useRoute();
-  const Stack = createNativeStackNavigator();
+export default function Header(props: NativeStackHeaderProps) {
+  const { navigation, back, options, route } = props;
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="account" component={Account} />
-    </Stack.Navigator>
+    <View style={style.container}>
+      <Pressable onPress={() => navigation.navigate("Account")}>
+        <MaterialCommunityIcons name="account-cog" size={26} />
+      </Pressable>
+      <Text>{route.name}</Text>
+      <Pressable>
+        <MaterialCommunityIcons name="cog" size={26} />
+      </Pressable>
+    </View>
   );
-}
-{
-  /*       <View style={style.container}>
-        <Pressable>
-          <MaterialCommunityIcons name="account-cog" size={26} />
-        </Pressable>
-        <Text>{route.name}</Text>
-        <Pressable>
-          <MaterialCommunityIcons name="cog" size={26} />
-        </Pressable>
-      </View> */
 }
 
 const style = StyleSheet.create({

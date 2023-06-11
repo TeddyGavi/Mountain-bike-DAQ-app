@@ -7,7 +7,6 @@ export default function MapScreen() {
   const insets = useSafeAreaInsets();
   return (
     <View>
-      <Header />
       <Text>MapScreen</Text>
     </View>
   );

@@ -6,8 +6,7 @@ import Header from "../components/Header";
 export default function RecorderScreen() {
   const insets = useSafeAreaInsets();
   return (
-    <View>
-      <Header />
+    <View style={{ paddingTop: insets.top }}>
       <Text>RecorderScreen</Text>
     </View>
   );

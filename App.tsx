@@ -1,32 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import {
-  NavigationContainer,
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme,
-} from "@react-navigation/native";
+import { StyleSheet } from "react-native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import {
   PaperProvider,
-  MD3Theme,
   MD3LightTheme,
-  MD3DarkTheme,
   adaptNavigationTheme,
 } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import useLocation from "./hooks/useLocation";
-import HomeScreen from "./screens/Home";
 import RecorderScreen from "./screens/Recorder";
 import MapScreen from "./screens/Map";
-import Settings from "./screens/Settings";
-import Header from "./components/Header";
+import { HomeStack } from "./navStacks/HomeStack";
 
 const App = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -65,7 +51,7 @@ const App = () => {
         >
           <Tab.Screen
             name="Home"
-            component={HomeScreen}
+            component={HomeStack}
             options={{
               tabBarIcon: ({ focused, color }) => {
                 return focused ? (
