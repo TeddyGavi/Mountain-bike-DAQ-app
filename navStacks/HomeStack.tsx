@@ -5,36 +5,27 @@ import Header from "../components/Header";
 import Account from "../screens/Account";
 import { Button, Text } from "react-native";
 import Settings from "../screens/Settings";
+import SettingsStack from "./SettingsStack";
 
 export function HomeStack({ navigation }) {
   const HomeStack = createNativeStackNavigator();
   return (
-    <HomeStack.Navigator
-    // screenOptions={{
-    //   header: (props) => <Header {...props} />,
-    // }}
-    >
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name="Home"
         component={Home}
-        options={{ title: "Home" }}
+        options={{ title: "Home", header: (props) => <Header {...props} /> }}
       />
       <HomeStack.Screen
         name="Account"
         component={Account}
-        // children={(props) => Account(props)}
         options={{
           title: "Account",
-          header: (props) => <Header {...props} />,
-          // headerLeft: () => (
-          //   <Button title="Home" onPress={() => navigation.goBack()} />
-          // ),
-          // animation: "slide_from_right",
         }}
       />
       <HomeStack.Screen
-        name="Settings"
-        component={Settings}
+        name="SettingsStack"
+        component={SettingsStack}
         options={{ title: "Settings" }}
       />
     </HomeStack.Navigator>

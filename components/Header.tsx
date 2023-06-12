@@ -33,7 +33,7 @@ export default function Header(props: NativeStackHeaderProps) {
           <MaterialCommunityIcons name="account-cog" size={26} />
         </Pressable>
         <Text>{options.title || route.name}</Text>
-        <Pressable onPress={() => navigation.navigate("Settings")}>
+        <Pressable onPress={() => navigation.navigate("SettingsStack")}>
           <MaterialCommunityIcons name="cog" size={26} />
         </Pressable>
       </View>
