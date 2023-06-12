@@ -102,9 +102,9 @@ function LiveDataDisplay() {
           {connectedDevice ? "Disconnect" : "Connect"}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.ctaButton} onPress={() => null}>
-        <Text style={styles.ctaButtonText}>Data</Text>
-      </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.ctaButton} onPress={() => null}> */}
+      {/* <Text style={styles.ctaButtonText}>Data</Text> */}
+      {/* </TouchableOpacity> */}
       <DeviceModal
         closeModal={hideModal}
         visible={isModalVisible}
@@ -120,10 +120,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
+    // alignContent: "center",
+    // display: "flex",
+    // alignItems: "center",
   },
   heartRateTitleWrapper: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
   },
   heartRateTitleText: {

@@ -7,7 +7,7 @@ import { Button, Text } from "react-native";
 import Settings from "../screens/Settings";
 import SettingsStack from "./SettingsStack";
 
-export function HomeStack({ navigation }) {
+export function HomeStack() {
   const HomeStack = createNativeStackNavigator();
   return (
     <HomeStack.Navigator>

@@ -13,6 +13,7 @@ import useLocation from "./hooks/useLocation";
 import RecorderScreen from "./screens/Recorder";
 import MapScreen from "./screens/Map";
 import { HomeStack } from "./navStacks/HomeStack";
+import { COLORS } from "./constants/colors";
 
 const App = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -22,12 +23,16 @@ const App = () => {
     reactNavigationLight: DefaultTheme,
   });
 
+  const customTheme = {
+    ...MD3LightTheme,
+    colors: COLORS,
+  };
+
   const overrideLight = {
     ...LightTheme,
     colors: {
       ...LightTheme.colors,
       secondaryContainer: "transparent",
-      onSurfaceVariant: "#043425",
     },
   };
 
@@ -36,18 +41,16 @@ const App = () => {
   }, []);
 
   return (
-    <PaperProvider theme={MD3LightTheme}>
+    <PaperProvider theme={customTheme}>
       <NavigationContainer theme={overrideLight}>
         <Tab.Navigator
           barStyle={{
-            backgroundColor: "#d7e2e141",
-            borderTopColor: "#042429",
             borderStyle: "solid",
-            borderTopWidth: 3,
+            borderTopWidth: 2,
             height: 100,
           }}
-          activeColor="black"
-          screenOptions={{}}
+          // activeColor="black"
+          // screenOptions={{}}
         >
           <Tab.Screen
             name="Root"
@@ -88,6 +91,7 @@ const App = () => {
               },
             }}
           />
+
           <Tab.Screen
             name="Map"
             component={MapScreen}

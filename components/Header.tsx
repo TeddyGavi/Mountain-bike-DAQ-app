@@ -1,22 +1,21 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Pressable,
-  StyleSheet,
-  Button,
-} from "react-native";
-import React, { useLayoutEffect } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Account from "../screens/Account";
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+import { useTheme } from "react-native-paper";
 
 export default function Header(props: NativeStackHeaderProps) {
   const { navigation, back, options, route } = props;
+  const theme = useTheme();
 
   if (back) {
     return (
-      <View style={style.containerBack}>
+      <View
+        style={[
+          style.containerBack,
+          // { backgroundColor: theme.colors.background },
+        ]}
+      >
         <Pressable
           style={{ display: "flex", flexDirection: "row" }}
           onPress={() => navigation.goBack()}
@@ -28,13 +27,37 @@ export default function Header(props: NativeStackHeaderProps) {
     );
   } else {
     return (
-      <View style={style.container}>
+      <View
+        style={[
+          style.container,
+          {
+            backgroundColor: theme.colors.surface,
+            borderBottomColor: theme.colors.outlineVariant,
+            borderBottomWidth: 0.5,
+          },
+        ]}
+      >
         <Pressable onPress={() => navigation.navigate("Account")}>
-          <MaterialCommunityIcons name="account-cog" size={26} />
+          <MaterialCommunityIcons
+            name="account-cog"
+            size={26}
+            color={theme.colors.primary}
+          />
         </Pressable>
-        <Text>{options.title || route.name}</Text>
+        <Text
+          style={{
+            fontSize: 20,
+            color: theme.colors.onTertiaryContainer,
+          }}
+        >
+          {options.title || route.name}
+        </Text>
         <Pressable onPress={() => navigation.navigate("SettingsStack")}>
-          <MaterialCommunityIcons name="cog" size={26} />
+          <MaterialCommunityIcons
+            name="cog"
+            size={26}
+            color={theme.colors.primary}
+          />
         </Pressable>
       </View>
     );
@@ -49,7 +72,6 @@ const style = StyleSheet.create({
     alignItems: "flex-end",
     height: 100,
     padding: 15,
-    backgroundColor: "#d7e2e141",
   },
   containerBack: {
     display: "flex",
@@ -58,6 +80,6 @@ const style = StyleSheet.create({
     alignItems: "flex-end",
     height: 100,
     padding: 15,
-    backgroundColor: "#d7e2e141",
+    // backgroundColor: "#d7e2e141",
   },
 });

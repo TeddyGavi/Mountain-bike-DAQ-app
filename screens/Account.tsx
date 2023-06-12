@@ -5,12 +5,9 @@ import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import Header from "../components/Header";
 
 export default function Account() {
-  // useEffect(() => {
-  //   navigation.setOptions({});
-  // }, [navigation]);
   return (
     <View>
-      <Text>Account</Text>
+      <Text>Account info goes here</Text>
     </View>
   );
 }
