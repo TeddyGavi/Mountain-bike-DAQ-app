@@ -9,8 +9,10 @@ import {
   useImage,
 } from "@shopify/react-native-skia";
 import { View } from "react-native";
+import { useTheme } from "react-native-paper";
 
 export const PulseIndicator = () => {
+  const theme = useTheme();
   const clock1 = useClockValue();
   const expo = useImage(require("../img/expo.png"));
   const heart = useImage(require("../img/heart.png"));
@@ -39,9 +41,27 @@ export const PulseIndicator = () => {
 
   return (
     <Canvas style={{ height: 300, width: 300 }}>
-      <Circle cx={150} cy={150} r={50} opacity={1} color="#FF6060"></Circle>
-      <Circle cx={150} cy={150} r={scale} opacity={opacity} color="#FF6060" />
-      <Circle cx={150} cy={150} r={scale2} opacity={opacity2} color="#FF6060" />
+      <Circle
+        cx={150}
+        cy={150}
+        r={50}
+        opacity={1}
+        color={theme.colors.primary}
+      ></Circle>
+      <Circle
+        cx={150}
+        cy={150}
+        r={scale}
+        opacity={opacity}
+        color={theme.colors.primary}
+      />
+      <Circle
+        cx={150}
+        cy={150}
+        r={scale2}
+        opacity={opacity2}
+        color={theme.colors.primary}
+      />
       <Image
         image={expo}
         fit="contain"

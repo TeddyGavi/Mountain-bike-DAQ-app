@@ -4,10 +4,10 @@ import {
   ListRenderItemInfo,
   Modal,
   SafeAreaView,
-  Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { useTheme, Text, Title } from "react-native-paper";
 import { Device } from "react-native-ble-plx";
 
 type DeviceModalListItemProps = {
@@ -26,6 +26,7 @@ type DeviceModalProps = {
 
 const DeviceModalListItem: FC<DeviceModalListItemProps> = (props) => {
   const { item, connectToPeripheral, closeModal } = props;
+  const theme = useTheme();
 
   const connectAndCloseModal = useCallback(() => {
     connectToPeripheral(item.item);
@@ -35,15 +36,20 @@ const DeviceModalListItem: FC<DeviceModalListItemProps> = (props) => {
   return (
     <TouchableOpacity
       onPress={connectAndCloseModal}
-      style={modalStyle.ctaButton}
+      style={[modalStyle.ctaButton, { backgroundColor: theme.colors.primary }]}
     >
-      <Text style={modalStyle.ctaButtonText}>{item.item.name}</Text>
+      <Text
+        style={[modalStyle.ctaButtonText, { color: theme.colors.onPrimary }]}
+      >
+        {item.item.name}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const DeviceModal: FC<DeviceModalProps> = (props) => {
   const { devices, visible, connectToPeripheral, closeModal, scan } = props;
+  const theme = useTheme();
 
   const renderDeviceModalListItem = useCallback(
     (item: ListRenderItemInfo<Device>) => {
@@ -60,25 +66,57 @@ const DeviceModal: FC<DeviceModalProps> = (props) => {
 
   return (
     <Modal
-      style={modalStyle.modalContainer}
+      style={[
+        modalStyle.modalContainer,
+        { backgroundColor: theme.colors.tertiaryContainer },
+      ]}
       animationType="slide"
       transparent={false}
       visible={visible}
     >
-      <SafeAreaView style={modalStyle.modalTitle}>
-        <Text style={modalStyle.modalTitleText}>
-          Tap on a device to connect
-        </Text>
+      <SafeAreaView
+        style={[
+          modalStyle.modalTitle,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
+        <Text style={modalStyle.modalTitleText}>Devices</Text>
         <FlatList
           contentContainerStyle={modalStyle.modalFlatlistContiner}
           data={devices}
           renderItem={renderDeviceModalListItem}
         />
-        <TouchableOpacity onPress={scan} style={modalStyle.ctaButton}>
-          <Text style={modalStyle.ctaButtonText}>Refresh</Text>
+        <TouchableOpacity
+          onPress={scan}
+          style={[
+            modalStyle.ctaButton,
+            { backgroundColor: theme.colors.primary },
+          ]}
+        >
+          <Text
+            style={[
+              modalStyle.ctaButtonText,
+              { color: theme.colors.onPrimary },
+            ]}
+          >
+            Refresh
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={closeModal} style={modalStyle.ctaButton}>
-          <Text style={modalStyle.ctaButtonText}>Close</Text>
+        <TouchableOpacity
+          onPress={closeModal}
+          style={[
+            modalStyle.ctaButton,
+            { backgroundColor: theme.colors.primary },
+          ]}
+        >
+          <Text
+            style={[
+              modalStyle.ctaButtonText,
+              { color: theme.colors.onPrimary },
+            ]}
+          >
+            Close
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     </Modal>
@@ -88,7 +126,7 @@ const DeviceModal: FC<DeviceModalProps> = (props) => {
 const modalStyle = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    // backgroundColor: "#f2f2f2",
   },
   modalFlatlistContiner: {
     flex: 1,
@@ -104,7 +142,7 @@ const modalStyle = StyleSheet.create({
   },
   modalTitle: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    // backgroundColor: "#f2f2f2",
   },
   modalTitleText: {
     marginTop: 40,
@@ -114,7 +152,7 @@ const modalStyle = StyleSheet.create({
     textAlign: "center",
   },
   ctaButton: {
-    backgroundColor: "#FF6060",
+    // backgroundColor: "#FF6060",
     justifyContent: "center",
     alignItems: "center",
     height: 50,
@@ -125,7 +163,7 @@ const modalStyle = StyleSheet.create({
   ctaButtonText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
+    // color: "white",
   },
 });
 

@@ -49,8 +49,6 @@ const App = () => {
             borderTopWidth: 2,
             height: 100,
           }}
-          // activeColor="black"
-          // screenOptions={{}}
         >
           <Tab.Screen
             name="Root"
@@ -114,7 +112,5 @@ const App = () => {
     </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;

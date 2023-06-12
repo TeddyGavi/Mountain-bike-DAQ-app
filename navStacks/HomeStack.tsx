@@ -1,10 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import Home from "../screens/Home";
 import Header from "../components/Header";
 import Account from "../screens/Account";
-import { Button, Text } from "react-native";
-import Settings from "../screens/Settings";
 import SettingsStack from "./SettingsStack";
 
 export function HomeStack() {

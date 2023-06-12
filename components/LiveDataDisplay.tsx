@@ -6,13 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceModal from "./DeviceConnectionModal";
 import { PulseIndicator } from "./PulseIndicator";
 import useBle from "../hooks/useBle";
 import useLocation from "../hooks/useLocation";
 import useFileSystem from "../hooks/useFileSystem";
-import { prepareData } from "../dataFilter/prepareData";
 
 function LiveDataDisplay() {
   const {

@@ -56,7 +56,7 @@ function useBle(): BluetoothLowEnergyApi {
             // array of peripherals
             const restoredDevices = restoredState.connectedPeripherals;
             const device = restoredDevices.filter((device) =>
-              device.name?.includes("zephyr")
+              device.name?.toLowerCase().trim().includes("zephyr")
             );
             setConnectedDevice(device[0]);
           }
@@ -275,7 +275,7 @@ function useBle(): BluetoothLowEnergyApi {
     }
   };
 
-  const disconnectFromDevice = () => {
+  const disconnectFromDevice = async () => {
     if (connectedDevice && subscription) {
       subscription.forEach((s) => s.remove());
       bleManager.cancelDeviceConnection(connectedDevice.id);
