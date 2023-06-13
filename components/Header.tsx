@@ -8,61 +8,61 @@ export default function Header(props: NativeStackHeaderProps) {
   const { navigation, back, options, route } = props;
   const theme = useTheme();
 
-  if (back) {
-    return (
-      <View
-        style={[
-          style.containerBack,
-          // { backgroundColor: theme.colors.background },
-        ]}
+  // if (back) {
+  //   return (
+  //     <View
+  //       style={[
+  //         style.containerBack,
+  //         // { backgroundColor: theme.colors.background },
+  //       ]}
+  //     >
+  //       <Pressable
+  //         style={{ display: "flex", flexDirection: "row" }}
+  //         onPress={() => navigation.goBack()}
+  //       >
+  //         <MaterialCommunityIcons name="chevron-left" size={26} />
+  //         <Text style={{ alignSelf: "center", fontSize: 20 }}>Back</Text>
+  //       </Pressable>
+  //     </View>
+  //   );
+  // } else {
+  return (
+    <View
+      style={[
+        style.container,
+        {
+          backgroundColor: theme.colors.surface,
+          borderBottomColor: theme.colors.outlineVariant,
+          borderBottomWidth: 0.5,
+        },
+      ]}
+    >
+      <Pressable onPress={() => navigation.navigate("Account")}>
+        <MaterialCommunityIcons
+          name="account-cog"
+          size={26}
+          color={theme.colors.primary}
+        />
+      </Pressable>
+      <Text
+        style={{
+          fontSize: 20,
+          color: theme.colors.onTertiaryContainer,
+        }}
       >
-        <Pressable
-          style={{ display: "flex", flexDirection: "row" }}
-          onPress={() => navigation.goBack()}
-        >
-          <MaterialCommunityIcons name="chevron-left" size={26} />
-          <Text style={{ alignSelf: "center", fontSize: 20 }}>Back</Text>
-        </Pressable>
-      </View>
-    );
-  } else {
-    return (
-      <View
-        style={[
-          style.container,
-          {
-            backgroundColor: theme.colors.surface,
-            borderBottomColor: theme.colors.outlineVariant,
-            borderBottomWidth: 0.5,
-          },
-        ]}
-      >
-        <Pressable onPress={() => navigation.navigate("Account")}>
-          <MaterialCommunityIcons
-            name="account-cog"
-            size={26}
-            color={theme.colors.primary}
-          />
-        </Pressable>
-        <Text
-          style={{
-            fontSize: 20,
-            color: theme.colors.onTertiaryContainer,
-          }}
-        >
-          {options.title || route.name}
-        </Text>
-        <Pressable onPress={() => navigation.navigate("SettingsStack")}>
-          <MaterialCommunityIcons
-            name="cog"
-            size={26}
-            color={theme.colors.primary}
-          />
-        </Pressable>
-      </View>
-    );
-  }
+        {options.title || route.name}
+      </Text>
+      <Pressable onPress={() => navigation.navigate("SettingsStack")}>
+        <MaterialCommunityIcons
+          name="cog"
+          size={26}
+          color={theme.colors.primary}
+        />
+      </Pressable>
+    </View>
+  );
 }
+// }
 
 const style = StyleSheet.create({
   container: {
