@@ -116,11 +116,25 @@ eas build -p android --profile preview
 
 ### Built with
 
+- Expo
+- React Native Navigation
+- React-Native-ple-blx
+- Skia
+- React Native Paper
+
 ### What I learned
+
+-
 
 ### Continued development
 
 ### Useful resources
+
+- [Dan's React Native ble tutorial](https://www.youtube.com/watch?v=UuHLPsjp6fM&t=348s&ab_channel=Dan%27sReactNativeLab)
+- [React Native ble-plx](https://github.com/dotintent/react-native-ble-plx)
+- [Expo Bare Metal WorkFlow](https://docs.expo.dev/bare/hello-world/)
+- [React Native Navigation](https://reactnavigation.org/)
+- [React Native Paper](https://reactnativepaper.com/)
 
 ## Author
 
@@ -129,3 +143,6 @@ eas build -p android --profile preview
 - LinkedIn - [Matthew Davis](https://www.linkedin.com/in/matcdavis/)
 
 ## Acknowledgments
+
+- A huge thanks to [Dan!](https://github.com/friyiajr) I wouldn't have had such an easy time understanding BLE if it wasn't for his resources
+- Also Firmware Engineer [Ryan Walker](https://github.com/o7-machinehum) for build the device and writing all the Firmware, and continued support on the App side.
