@@ -28,7 +28,8 @@
 ### General Steps:
 
 - I have already ran `npx expo prebuild` to expose the native code
-- isntalling any packages in the bare metal workflow requires a prebuild and proper config set up in `androidManifest` and `Info.plist`
+- installing any packages in the bare metal workflow requires a prebuild and proper config set up in `androidManifest` and `Info.plist`
+- see the expo docs for any specific package regarding extra steps needed to configure a given package
 - You will need node, expo-cli, eas-cli and npm to manage the packages!
 - If building locally for android or is you want to use the emulator (ie. not useful for native modules using BLE) you will need android studio
 
@@ -40,7 +41,7 @@
 - `eas build --profile development --platform ios`
 - `yes` to provisioning
 - `no` to push notifications
-- ## enable developer mode on `iPhone`
+- enable developer mode on `iPhone`
 - should get a QR back to install and run the app locally
 
 ### Android
