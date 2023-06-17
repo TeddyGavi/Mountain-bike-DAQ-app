@@ -34,4 +34,34 @@
 - I can share the download link for the zipped project
 - Download and extract and transfer to Android Device
 - Allow install from unknown sources on phone
-- install app! 
+- install app!
+
+#### To Build an APK on Expo
+- have an expo account
+- modify the `eas.json`
+
+  
+  ```json
+  {
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {}
+  }
+- and to build run:
+```shell
+eas build -p android --profile preview
+```
+
+- wait for the build to complete, download from expo and install on your device.
