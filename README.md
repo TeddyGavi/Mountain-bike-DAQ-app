@@ -105,6 +105,11 @@ eas build -p android --profile preview
 ### The challenge
 
 - Current Hardware and Software solutions are expensive, bulky, and don't use LASERS!
+- Design hardware to measure suspenion travel on mountain bikes
+- Design an App to work on cross-platform and be able to see a live stream of data
+- Said App allows for storing GPS location of a given ride and corresponding suspension data.
+- App works offline
+- Once online, data can be download in csv format to be processed
 
 ### Screenshot
 
@@ -113,6 +118,12 @@ eas build -p android --profile preview
 ### Links
 
 ## My process
+
+1. Understand `react-native-ble-plx`
+2. Set up development environment with Zephyr to test the nrf52DK
+3. Test the functionality
+4. Use firebase to store data for MVP
+5. Continue to Develop app with GPS, mapping, and local offline storage in SQLite
 
 ### Built with
 
@@ -124,6 +135,8 @@ eas build -p android --profile preview
 
 ### What I learned
 
+- Understanding BLE SIG and how Service and Characteresitc UUIDs relate to streaming data
+- Managing BLE devices, subscriptions
 -
 
 ### Continued development
